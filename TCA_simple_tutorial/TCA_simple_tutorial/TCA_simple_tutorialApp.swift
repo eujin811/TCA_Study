@@ -14,10 +14,15 @@ struct TCA_simple_tutorialApp: App {
                            reducer: counterReducer,
                            environment: CounterEnvironment())
     
+    let calculatorStore = Store(
+        initialState: CalculatorReduce.State(),
+        reducer: CalculatorReduce())
+    
     var body: some Scene {
         WindowGroup {
             // App Level
-            CounterView(store: countStore)
+//            CounterView(store: countStore)
+            CalculatorView(store: calculatorStore)
         }
     }
 }
