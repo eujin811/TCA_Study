@@ -25,6 +25,36 @@
 	- State, Action, Reducer를 만드는 작업이 선행으로 이루어져야해서 작은 단위의 프로젝트에는 배보다 배꼼이 더 클수 있음
 
 
+## TCA 사용법
+
+- 흐름
+	- action을 보내 store가 reducer와 effect를 실행하고, store에서 일어나는 상태(state) 변화를 관측(observe)해서 UI를 업데이트할 수도 있다.
+
+- 꽤 크고 복잡한 기능을 결합가능한 작고 독립된 모듈로 쪼갤 수 있다.
+
+- State
+	- 데이터 상태
+	- 로직 수행이나 UI를 그릴 때 필요한 데이터
+
+- Action
+	- 도메인 액션
+	- 검색어 입력, 검색어 삭제, 할일 삭제, 추가 등
+	- 사용자가 하는 행동이나 노티피케이션 등 app내에 생길 수 있는 모든 행동
+
+- Environment
+	- API 클라이언트나 애널리틱스 클라이언트와 같이 어플리케이션이 필요로 하는 의존성(Dependency)갖는 타입
+
+- Store
+	- 커맨드 센터
+	- state, action 가지고 있음
+	- 기능이 작동하는 공간
+
+- Reducer
+	- action과 state를 연결시켜주는 역할
+	- 들어온 action에 따라 state를 변화시켜주는 역할
+	- Action이 주어졌을 때 현재 State를 다음 상태로 변화시키는 방법 갖는 함수
+	- 실행할 수 있는 effect(ex. api request)를 반환해야한다 
+
 ## TCA 적용기
 
 초반
