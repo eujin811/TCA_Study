@@ -17,6 +17,11 @@ struct NoticeList: Decodable {
         self.list = (try? container.decode([NoticeItem].self, forKey: .list)) ?? [NoticeItem]()
     }
     
+    init() {
+        self.code = 2000
+        self.list = [NoticeItem]()
+    }
+    
     struct NoticeItem: Decodable {
         let id: Int
         let title: String
