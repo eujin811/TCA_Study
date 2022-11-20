@@ -6,15 +6,18 @@
 //
 
 import Combine
+import CombineSchedulers
 import SwiftUI
 
 import Alamofire
 import ComposableArchitecture
 
 struct NoticeListReduce: ReducerProtocol {
-    private var cancelBag = Set<AnyCancellable>()
-    
-    struct State {
+    struct State: Equatable {
+        static func == (lhs: NoticeListReduce.State, rhs: NoticeListReduce.State) -> Bool {
+            return lhs.self == rhs.self
+        }
+        
         var noticeList = [NoticeList.NoticeItem]()
     }
     
@@ -23,52 +26,58 @@ struct NoticeListReduce: ReducerProtocol {
             return lhs.self == rhs.self
         }
         
+        
         case showNoticeList
-        case convertToNoticeList(NoticeList)
-    }
+        case responseNoticeList(TaskResult<NoticeList>)
+        
+     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
+//        case .showNoticeList:
+//            guard let url = URL(string: Constants.sever.noticeListURL) else { return .none }
+//
+//            return .task {
+//                let data = AF.request(Constants.sever.noticeListURL,
+//                                      method: .get,
+//                                      parameters: nil,
+//                                      encoding: URLEncoding.default,
+//                                      headers: nil)
+//                    .publishDecodable(type: NoticeList.self)
+//                    .value()
+//            }
+
+            //            return apiManager
+            //                .reqestNoticeList()
+            //                .catchToEffect(.r esponseNoticeList($0))
+            
         case .showNoticeList:
-            guard let url = URL(string: Constants.sever.noticeListURL) else { return .none }
-            
-            let action = AF.request(Constants.sever.noticeListURL,
-                                    method: .get,
-                                    parameters: nil,
-                                    encoding: URLEncoding.default,
-                                    headers: nil)
-                .publishDecodable(type: NoticeList.self)
-                .value()
-                .receive(on: DispatchQueue.main)
-                .catchToEffect()
-                .map { response -> NoticeListReduce.Action in
-                    switch response {
-                    case .success(let noticeList):
-                        return NoticeListReduce.Action.convertToNoticeList(noticeList)
-                        
-                    case .failure(let error):
-                        print("failure, response \(error)")
-                        return .none
+            return .task {
+                // error -> Trailing closure passed to parameter of type 'TaskResult<NoticeList>' that does not accept a closure
+                
+                await .responseNoticeList {
+                    TaskResult {
+                        NoticeClient().requestNoticeList()
                     }
-                    
                 }
+            }
             
-            
-            return action
-        case .convertToNoticeList(let noticeList):
+        case .responseNoticeList(.success(let noticeList)):
             switch noticeList.code {
             case 1000:
                 state.noticeList = noticeList.list
-                return .none
-                
             default:
-                print("서버에러 notice code \(noticeList.code)")
-                return .none
+                print("sever error: code \(noticeList.code)")
             }
+            
+            return .none
+            
+        case .responseNoticeList(.failure(let error)):
+            print("fail response \(error)")
+            return .none
         }
     }
     
-
 }
 
 struct NoticeListView: View {
