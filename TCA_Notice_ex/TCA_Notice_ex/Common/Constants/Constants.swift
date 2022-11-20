@@ -9,5 +9,5 @@ import Foundation
 
 enum Constants {
     static let sever = SeverConstants.self
-    
+    static let date = DateConstants.self
 }
