@@ -11,7 +11,7 @@ import SwiftUI
 struct TCA_Notice_exApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NoticeListView()
         }
     }
 }
