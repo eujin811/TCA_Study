@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct TCA_Notice_exApp: App {
+    let noticeListStore = Store(
+        initialState: NoticeListReduce.State(),
+        reducer: NoticeListReduce())
+    
     var body: some Scene {
         WindowGroup {
-            NoticeListView()
+            NoticeListView(store: noticeListStore)
         }
     }
 }

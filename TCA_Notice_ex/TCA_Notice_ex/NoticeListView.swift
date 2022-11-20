@@ -72,14 +72,16 @@ struct NoticeListReduce: ReducerProtocol {
 }
 
 struct NoticeListView: View {
+    let store: StoreOf<NoticeListReduce>
+    
     var body: some View {
         Text("Hello, world!")
             .padding()
     }
 }
 
-struct NoticeDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        NoticeListView()
-    }
-}
+//struct NoticeDetail_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NoticeListView(store: <#StoreOf<NoticeListReduce>#>)
+//    }
+//}
