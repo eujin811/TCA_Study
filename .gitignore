@@ -137,4 +137,7 @@ xcuserdata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+# Project
+/TCA_Notice_ex/TCA_Notice_ex/Common/Constants/SeverConstants.swift
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,swift,swiftpackagemanager,xcode
